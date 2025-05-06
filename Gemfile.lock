@@ -13,6 +13,12 @@ GIT
       tzinfo
 
 GIT
+  remote: https://github.com/Specialty-Timbers-NZ/radiant-nzffa_conference-extension.git
+  revision: 1b7fb9b0b75e26be00a366a7e258cd4f4b903c2e
+  specs:
+    radiant-conference-extension (1.0.0)
+
+GIT
   remote: https://github.com/enspiral/radiant-settings.git
   revision: 205a0af20cd878259f2c7df42d40beadfde33c38
   specs:
@@ -109,12 +115,6 @@ GIT
     radiant-forum-extension (3.0.6)
       acts_as_list (~> 0.1.2)
       radiant-reader-extension (~> 3.0.23)
-
-GIT
-  remote: https://github.com/nzffa/radiant-nzffa_conference-extension.git
-  revision: 5816f7efcf1b966993efab08caa41e4841416792
-  specs:
-    radiant-conference-extension (1.0.0)
 
 GIT
   remote: https://github.com/nzffa/radiant-nzffa_marketplace-extension.git
