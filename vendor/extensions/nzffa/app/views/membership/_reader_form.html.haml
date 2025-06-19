@@ -71,20 +71,6 @@
     %br
     =f.text_field :postcode
 
-  %h3 Email Newsletters
-
-  %p{:style => @reader.active_subscription.try(:belongs_to_fft) ? "display: none" : ''}
-    =check_box_tag :receive_fft_newsletter, "1", @reader.new_record? ? true : @reader.group_ids.include?(NzffaSettings.fft_newsletter_group_id)
-    =label_tag :receive_fft_newsletter, 'Receive Farm Forestry Timbers Newsletter'
-
-  %p{:style => @reader.new_record? ? "display: none" : ''}
-    =check_box_tag :receive_nzffa_members_newsletter, "1", @reader.new_record? ? true : @reader.group_ids.include?(NzffaSettings.nzffa_members_newsletter_group_id)
-    =label_tag :receive_nzffa_members_newsletter, 'Receive NZFFA newsletters via email'
-
-  %p
-    =check_box_tag :receive_small_scale_forest_grower_newsletter, "1", @reader.new_record? ? true : @reader.group_ids.include?(NzffaSettings.small_scale_forest_grower_newsletter_group_id)
-    =label_tag :receive_small_scale_forest_grower_newsletter, 'Receive Small Scale Forest Grower Newsletter'
-
   %p
     -if @reader.new_record?
       =f.submit 'Signup'
