@@ -6,7 +6,7 @@ set :branch, 'staging'
 set :user, 'nzffa-staging-app'
 set :deploy_to, "/home/#{user}/#{rails_env}"
 
-set :solo_host, 'c.pool.nzffa.org.nz'
+set :solo_host, 'www-1.h.specialtytimbers.nz'
 role :web, solo_host
 role :app, solo_host
 role :db,  solo_host, :primary => true

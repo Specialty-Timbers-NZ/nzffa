@@ -10,11 +10,11 @@ set :stages, %w(production staging)
 set :default_stage, "staging"
 
 set :application, "nzffa"
-set :user, "nzffa-app"
+set :user, "fft-app"
 # set :group, "www-data"
 
 set :scm, :git
-set :repository, "git@github.com:nzffa/nzffa.git"
+set :repository, "git@github.com:Specialty-Timbers-NZ/nzffa.git"
 set :deploy_via, :remote_cache
 set :bundle_without, [:development, :test, :cucumber]
 set :bundle_flags, '--deployment --full-index'
