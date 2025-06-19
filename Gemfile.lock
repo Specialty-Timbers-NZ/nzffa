@@ -19,6 +19,13 @@ GIT
     radiant-conference-extension (1.0.0)
 
 GIT
+  remote: https://github.com/Specialty-Timbers-NZ/radiant-stnz_marketplace-extension.git
+  revision: cda982fac63982aefc9f90a0f8ed7d0edba23c4e
+  specs:
+    radiant-marketplace-extension (1.0.1)
+      spreadsheet
+
+GIT
   remote: https://github.com/enspiral/radiant-settings.git
   revision: 205a0af20cd878259f2c7df42d40beadfde33c38
   specs:
@@ -115,13 +122,6 @@ GIT
     radiant-forum-extension (3.0.6)
       acts_as_list (~> 0.1.2)
       radiant-reader-extension (~> 3.0.23)
-
-GIT
-  remote: https://github.com/nzffa/radiant-nzffa_marketplace-extension.git
-  revision: 97b8a7f3adcc37319b7edecd22f8ba741f6ec9fd
-  specs:
-    radiant-marketplace-extension (1.0.1)
-      spreadsheet
 
 GIT
   remote: https://github.com/nzffa/radiant-page_reader_group_permissions-extension.git

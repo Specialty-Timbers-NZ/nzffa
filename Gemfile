@@ -75,7 +75,8 @@ gem "radiant-conference-extension", git: 'https://github.com/Specialty-Timbers-N
 
 # gem "radiant-marketplace-extension", :path => 'vendor/extensions/marketplace'
 # gem "spreadsheet"
-gem "radiant-marketplace-extension", :git => 'https://github.com/nzffa/radiant-nzffa_marketplace-extension.git'
+gem "radiant-marketplace-extension", git: 'https://github.com/Specialty-Timbers-NZ/radiant-stnz_marketplace-extension.git'
+# gem "radiant-marketplace-extension", path: "vendor/extensions/marketplace"
 
 gem "radiant-reorder_children-extension"
 gem 'radiant-relations-extension'
