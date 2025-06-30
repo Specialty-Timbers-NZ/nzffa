@@ -123,6 +123,8 @@ group :production, :staging do
   gem 'airbrake', '4.1.0'
 end
 
+gem 'puma'
+
 # If you're running tests or specs
 group :test, :cucumber, :development do
   #gem 'vcr'
