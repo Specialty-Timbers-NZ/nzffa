@@ -23,7 +23,7 @@ set :whenever_command, "bundle exec whenever"
 namespace :deploy do
   task :restart do
     # run "touch #{current_path}/tmp/restart.txt"
-    run "killall -USR2 -q puma"
+    run "reload-puma"
   end
 end
 
