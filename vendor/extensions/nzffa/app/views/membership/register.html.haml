@@ -6,8 +6,7 @@
     If you are already registered you can
     =link_to 'Sign in here', '/membership/details/'
     to manage your subscription or retrieve your password.
-  - if path = Asset.find_by_id(Radiant::Config['nzffa.subscription_form_asset_id']).try(:asset).try(:url)
-    
+  
 - else
   %p
     You are registered and logged in. [
