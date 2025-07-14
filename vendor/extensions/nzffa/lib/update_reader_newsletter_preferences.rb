@@ -6,12 +6,12 @@ module UpdateReaderNewsletterPreferences
     if params["receive_fft_newsletter"]
       unless @reader.groups.include? group
         @reader.groups << group
-        @newsletter_alert = "Subscribed to #{group_name.humanize}."
+        @newsletter_alert = "Subscribed to newsletter."
       end
     else
       if @reader.groups.include? group
         @reader.groups.delete(group)
-        @newsletter_alert = "Unsubscribed from #{group_name.humanize}."
+        @newsletter_alert = "Unsubscribed from newsletter."
       end
     end
   

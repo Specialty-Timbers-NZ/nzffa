@@ -32,6 +32,7 @@ class MembershipController < MarketplaceController
         @reader = Reader.new(params[:reader])
 
         if @reader.save
+          params["receive_fft_newsletter"] = 1 # sign up to FFT newsletter by default
           update_newsletter_preference
           # MembershipMailer.deliver_registration_email(params[:reader])
           @reader.send_activation_message
