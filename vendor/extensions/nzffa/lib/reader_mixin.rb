@@ -29,9 +29,7 @@ module ReaderMixin
 
     group_membership_shortcuts = {
       :receive_fft_newsletter => NzffaSettings.fft_newsletter_group_id,
-      :receive_nzffa_members_newsletter => NzffaSettings.nzffa_members_newsletter_group_id,
-      :receive_small_scale_forest_grower_newsletter => NzffaSettings.small_scale_forest_grower_newsletter_group_id,
-
+      
       :is_newsletter_editor => NzffaSettings.newsletter_editors_group_id,
       :is_councillor => NzffaSettings.councillors_group_id,
       :is_secretary => NzffaSettings.secretarys_group_id,
@@ -113,59 +111,6 @@ module ReaderMixin
     !subscription_for_next_year.nil?
   end
 
-  def main_branch
-    active_subscription.main_branch if active_subscription.present?
-  end
-
-  def main_branch_name
-    main_branch.name if main_branch
-  end
-
-  def main_branch_id
-    # Appears to not be in use..
-    # main_branch.id if main_branch
-  end
-
-  def main_branch_group_id
-    main_branch.id if main_branch
-  end
-
-  def associated_branch_ids
-    active_subscription.associated_branch_ids if active_subscription.present?
-  end
-
-  def associated_branch_ids_string
-    associated_branch_ids.join(' ') if associated_branch_ids
-  end
-
-  def associated_branches
-    active_subscription.associated_branches if active_subscription
-  end
-
-  def tree_grower_group_ids
-    #NZ Tree Grower subscribers 80,
-    #Australian Tree Grower subscribers 81,
-    #Rest of World Tree Grower subscribers 82
-    (group_ids & [NzffaSettings.tg_magazine_new_zealand_group_id, NzffaSettings.tgm_australia_group_id, NzffaSettings.tgm_everywhere_else_group_id]).join(' ')
-  end
-
-  def associated_branch_group_ids_string
-    if active_subscription
-      group_ids = []
-      if active_subscription.belongs_to_fft
-        group_ids << NzffaSettings.fft_marketplace_group_id
-      end
-      group_ids += active_subscription.branches.map(&:id)
-      group_ids.join(' ')
-    end
-  end
-
-  def associated_branch_names
-    if sub = Subscription.active_subscription_for(self)
-      sub.associated_branch_names
-    end
-  end
-
   def action_group_group_ids_string
     if active_subscription
       ids = []
@@ -175,10 +120,6 @@ module ReaderMixin
       ids += Group.action_groups.find_all_by_id(group_ids).map(&:id)
       ids.join(' ')
     end
-  end
-
-  def current_branches_from_groups
-    Group.branches.find_all_by_id(group_ids)
   end
 
   def action_group_names
@@ -201,13 +142,6 @@ module ReaderMixin
     end
   end
 
-  def belongs_to_branch?
-    group_ids.each do |group_id|
-      return true if Group.branches.map(&:id).include? group_id
-    end
-    false
-  end
-
   def identifiers
     #Direct Debit 204 (Note: This is currently under special_cases)
     #Past members 237
@@ -222,10 +156,6 @@ module ReaderMixin
     #Secretary 219
     #Treasurer 220
     (group_ids & [204, 237, 240, 205, 211, 226, 214, 203, 216, 235, 219, 220]).join(' ')
-  end
-
-  def is_complimentary_tree_grower?
-    special_cases_include? 102
   end
 
   def is_options_only?
