@@ -1,20 +1,13 @@
 class Subscription < ActiveRecord::Base
   has_one :order, :dependent => :destroy
   belongs_to :reader
-  belongs_to :main_branch, :class_name => 'Group'
 
   has_many :group_subscriptions, :dependent => :destroy, :source => :group
   has_many :groups, :through => :group_subscriptions
 
-  validates_inclusion_of :tree_grower_delivery_location, :in => ['new_zealand', 'australia', 'everywhere_else'], :if => 'receive_tree_grower_magazine?'
-  validates_presence_of :ha_of_planted_trees, :if => 'membership_type == "full"'
-  validates_presence_of :nz_tree_grower_copies
   validates_presence_of :expires_on, :begins_on
   validates_presence_of :reader
   validates_numericality_of :research_fund_contribution_amount, :greater_than_or_equal_to => 0
-
-  validates_inclusion_of :ha_of_planted_trees,
-    :in => NzffaSettings.forest_size_levys.keys, :if => 'membership_type == "full"'
 
   named_scope :active, lambda {
     {joins: :order,
@@ -107,12 +100,8 @@ class Subscription < ActiveRecord::Base
        :contribute_to_research_fund,
        :research_fund_contribution_amount,
        :research_fund_contribution_is_donation,
-       :tree_grower_delivery_location,
-       :ha_of_planted_trees,
-       :receive_tree_grower_magazine,
        :special_interest_groups,
-       :belongs_to_fft,
-       :nz_tree_grower_copies].each do |attr|
+       :belongs_to_fft].each do |attr|
          sub.send "#{attr}=", old_sub.send(attr)
        end
 
@@ -175,10 +164,6 @@ class Subscription < ActiveRecord::Base
   def after_initialize
     self.begins_on ||= Date.today
     self.expires_on ||= Date.new(begins_on.year, 12, 31)
-    self.receive_tree_grower_magazine = true if self.receive_tree_grower_magazine.nil? # leave alone if set to false..
-    self.tree_grower_delivery_location ||= 'new_zealand'
-    self.nz_tree_grower_copies ||= 1
-    self.ha_of_planted_trees ||= '0 - 10'
     self.research_fund_contribution_amount ||= 0.0
   end
 
@@ -187,48 +172,6 @@ class Subscription < ActiveRecord::Base
       self[:research_fund_contribution_amount]
     else
       0
-    end
-  end
-
-  def branches
-    # Do not use groups.branches here; it will make new_with_same_attributes fail
-    groups.select{|g| g.is_branch_group?}
-  end
-
-  def branches=(ids)
-    self.groups -= Group.branches
-    self.groups += Group.branches.find(ids.reject(&:blank?))
-  end
-
-  def branch_ids
-    branches.map &:id
-  end
-
-  def branch_names
-    branches.map(&:name)
-  end
-
-  def main_branch_name
-    main_branch.try(:name) || tgm_group.try(:name)
-  end
-
-  def main_branch_id=(id)
-    if id.blank?
-      self.main_branch = (groups & Subscription.subscribable_groups).first || nil
-    else
-      self.main_branch = Group.find(id)
-    end
-  end
-
-  def tgm_group
-    return nil unless receive_tree_grower_magazine
-    case tree_grower_delivery_location
-    when 'new_zealand'
-      Group.find(NzffaSettings.tg_magazine_new_zealand_group_id)
-    when 'australia'
-      Group.find(NzffaSettings.tgm_australia_group_id)
-    else
-      Group.find(NzffaSettings.tgm_everywhere_else_group_id)
     end
   end
 
