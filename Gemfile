@@ -64,7 +64,7 @@ gem "radiant-clipped-extension", :git => 'https://github.com/radiant/radiant-cli
 gem 'radiant-reader-extension', :git => 'https://github.com/jomz/radiant-reader-extension.git', :branch => :with_rails_lts
 # gem 'radiant-reader-extension', path: 'vendor/extensions/reader'
 
-gem "radiant-forum-extension", :git => 'https://github.com/nzffa/radiant-forum-extension.git', :branch => :wackamole
+gem "radiant-forum-extension", git: 'https://github.com/nzffa/radiant-forum-extension.git'
 # gem "radiant-forum-extension", :path => 'vendor/extensions/forum'
 
 gem "radiant-page_reader_group_permissions-extension", :git => 'https://github.com/nzffa/radiant-page_reader_group_permissions-extension.git'
