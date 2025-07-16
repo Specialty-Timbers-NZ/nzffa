@@ -13,12 +13,6 @@ GIT
       tzinfo
 
 GIT
-  remote: https://github.com/Specialty-Timbers-NZ/radiant-nzffa_conference-extension.git
-  revision: 1b7fb9b0b75e26be00a366a7e258cd4f4b903c2e
-  specs:
-    radiant-conference-extension (1.0.0)
-
-GIT
   remote: https://github.com/Specialty-Timbers-NZ/radiant-stnz_marketplace-extension.git
   revision: cda982fac63982aefc9f90a0f8ed7d0edba23c4e
   specs:
@@ -474,7 +468,6 @@ DEPENDENCIES
   radiant!
   radiant-ck_editor_filter-extension (~> 0.2.5)
   radiant-clipped-extension!
-  radiant-conference-extension!
   radiant-copy_move-extension (~> 2.4.11)
   radiant-downloads-extension!
   radiant-find_by_id_tag-extension (~> 1.2.3)
