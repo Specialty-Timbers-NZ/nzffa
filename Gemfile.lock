@@ -110,7 +110,7 @@ GIT
 
 GIT
   remote: https://github.com/nzffa/radiant-forum-extension.git
-  revision: 4207783c4d091f92f73af6b3452d167875c15978
+  revision: 9f5438febaa2edcdb2d466b823afb54279ff040f
   specs:
     radiant-forum-extension (3.0.6)
       acts_as_list (~> 0.1.2)
