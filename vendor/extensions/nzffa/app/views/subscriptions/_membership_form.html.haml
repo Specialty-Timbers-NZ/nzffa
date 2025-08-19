@@ -14,58 +14,12 @@
     =f.radio_button :ha_of_planted_trees, '41+'
     =f.label :ha_of_planted_trees_41, '40+ ha'
 
-  %h3 Select the Branches that you want to be a member of
-  %p#associated_branches{style: "display: flex; flex-wrap: wrap;"}
-    - Group.branches.each do |b|
-      %span{style: "width: 33%"}
-        %label
-          = f.check_box :branches, {multiple: true, checked: f.object.branch_ids.include?(b.id), class: "sgt"}, b.id, nil
-          = b.name
-          ($#{b.annual_levy.to_i})
-
-  %h3 Select the Special Interest Groups that you want to be a member of
-  %p#special_interest_groups{style: "display: flex; flex-wrap: wrap;"}
-    - Group.action_groups.all(:order => 'name').each do |b|
-      %span{style: "width: 33%"}
-        %label
-          = f.check_box :action_groups, {multiple: true, checked: f.object.action_group_ids.include?(b.id), class: "sgt"}, b.id, nil
-          = b.name
-          ($#{b.annual_levy.to_i})
-
   %h3 Farm Forestry Timbers Marketplace
   %p Farm Forestry Timbers is a society representing producers of specialty timbers. Joining means you can list your products or services and create adverts.
   %p#join_marketplace
     %label
       = f.check_box :belongs_to_fft, {class: 'sgt', checked: f.object.belongs_to_fft}, Group.fft_group.id
       Farm Forestry Timbers
-
-  #main_branch_selection
-    - select_opt_ids = f.object.belongs_to_fft ? [Group.fft_group.id] : []
-    - select_opt_ids += f.object.action_group_ids + f.object.branch_ids
-    - options = options_for_select(select_opt_ids.map{|group_id| [Group.find(group_id).name, group_id] })
-    %h3 Select the main Branch or Action Group you want to belong to
-    %p= f.select :main_branch_id, options
-    %p Your primary branch Councillor participates in Association decision making.
-
-  %h3 NZ Tree Grower Magazine
-  %p This Quarterly publication is the official Journal of the NZ Farm Forestry Association. Get it delivered.
-  =f.check_box :receive_tree_grower_magazine
-  =f.label :receive_tree_grower_magazine, 'Subscribe to NZ Tree Grower Magazine'
-
-  #tree_grower_delivery_location
-    %p Where will you have the magazine delivered to?
-    =f.radio_button :tree_grower_delivery_location, 'new_zealand'
-    =f.label :tree_grower_delivery_location_new_zealand, 'New Zealand'
-    %br
-    =f.radio_button :tree_grower_delivery_location, 'australia'
-    =f.label :tree_grower_delivery_location_australia, 'Australia'
-    %br
-    =f.radio_button :tree_grower_delivery_location, 'everywhere_else'
-    =f.label :tree_grower_delivery_location_everywhere_else, 'Everywhere else'
-
-    %p Do you want more than 1 copy of each edition? If so, how many copies of each edition of NZ Tree Grower would you like?
-    =f.label :nz_tree_grower_copies, 'Number of copies'
-    =f.text_field :nz_tree_grower_copies
 
   %h3 Research Fund Contribution
   %p

@@ -175,28 +175,6 @@ class Subscription < ActiveRecord::Base
     end
   end
 
-  def action_groups
-    # Do not use groups.action_groups here; it will make new_with_same_attributes fail
-    groups.select{|g| g.is_action_group?}
-  end
-
-  def action_groups=(ids)
-    self.groups -= Group.action_groups
-    self.groups += Group.action_groups.find(ids.reject(&:blank?))
-  end
-
-  def action_group_names
-    action_groups.map(&:name)
-  end
-
-  def action_group_ids
-    action_groups.map(&:id)
-  end
-
-  def self.subscribable_groups
-    Group.branches + Group.action_groups + Group.tgm_groups + [Group.fft_group]
-  end
-
   def belongs_to_fft
     self.groups.include?(Group.fft_group)
   end

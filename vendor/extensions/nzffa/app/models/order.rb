@@ -38,22 +38,6 @@ class Order < ActiveRecord::Base
     line_amount('forest_size_levy')
   end
 
-  def tree_grower_levy
-    line_amount('nz_tree_grower_magazine_levy')
-  end
-
-  def fft_marketplace_levy
-    line_amount('fft_marketplace_levy')
-  end
-
-  def branches_levy
-    order_lines.select{|l| l.kind == 'branch_levy'}.map(&:amount).sum
-  end
-
-  def action_groups_levy
-    order_lines.select{|l| l.kind == 'action_group_levy'}.map(&:amount).sum
-  end
-
   def before_destroy
     unless is_deletable?
       errors.add_to_base('You cannot delete an order that has been paid online')
@@ -234,34 +218,6 @@ class Order < ActiveRecord::Base
             unit_amount: line.amount
           )
         end
-      when "branch_levy"
-        branch = Group.find_by_name(line.particular)
-        if advance_payment?
-          index = 1
-        else
-          index = 0
-        end
-        account_code = branch.account_codes.split(",")[index]
-        li = invoice.add_line_item(
-          description: "Branch levy - #{branch.name}",
-          account_code: account_code,
-          unit_amount: line.amount
-        )
-        li.add_tracking(name: 'Branch', option: line.particular)
-      when "action_group_levy"
-        action_group = Group.find_by_name(line.particular)
-        if advance_payment?
-          index = 1
-        else
-          index = 0
-        end
-        account_code = action_group.account_codes.split(",")[index]
-        li = invoice.add_line_item(
-          description: "Action group levy - #{action_group.name}",
-          account_code: account_code,
-          unit_amount: line.amount
-        )
-        li.add_tracking(name: 'Sub Group', option: line.particular)
       when "forest_size_levy"
         if advance_payment?
           account_code = "2-3350" # Advance forest size levies all go on one account
@@ -290,18 +246,6 @@ class Order < ActiveRecord::Base
         invoice.add_line_item(
           description: "FFT marketplace levy - #{line.particular.gsub('_',' ')}",
           account_code: account_code,
-          unit_amount: line.amount
-        )
-      when "nz_tree_grower_magazine_levy"
-        invoice.add_line_item(
-          description: "NZ Tree Grower Magazine - #{line.particular.gsub('_',' ')}",
-          account_code: "4-1500",
-          unit_amount: line.amount
-        )
-      when "casual_member_nz_tree_grower_magazine_levy"
-        invoice.add_line_item(
-          description: "NZ Tree Grower Magazine - #{line.particular.gsub('_',' ')}",
-          account_code: "4-3500",
           unit_amount: line.amount
         )
       when "research_fund_contribution"

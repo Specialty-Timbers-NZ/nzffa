@@ -3,12 +3,6 @@
   =subscription.belongs_to_fft ? 'Yes' : 'No'
 
 %p
-  %b Receive NZ Tree Grower Magazine?
-  =subscription.receive_tree_grower_magazine? ? 'Yes' : 'No'
-  -if subscription.receive_tree_grower_magazine?
-    #{subscription.nz_tree_grower_copies} copies
-
-%p
   %b Begins on:
   =l subscription.begins_on
 
@@ -19,21 +13,7 @@
 %p
   %b Forest Area:
   =subscription.ha_of_planted_trees
-%p
-  %b Branches:
-  %ul
-    -subscription.branches.each do |branch|
-      %li=branch.name
 
-%p
-  %b Special Interest Groups:
-  %ul
-    -subscription.action_groups.each do |action_group|
-      %li=action_group.name
-- unless subscription.main_branch_id.blank?
-  %p
-    %b Main branch:
-    = subscription.main_branch_name
 %p
   = link_to "Print receipt", print_subscriptions_path
   = link_to "Print renewal form", print_renewal_subscriptions_path

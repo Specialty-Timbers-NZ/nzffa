@@ -28,7 +28,7 @@ class MembershipController < MarketplaceController
         params[:reader][:email] = params[:reader].delete(:pdnlb)
       end
       if !current_reader
-        # new member
+        # new member registering
         @reader = Reader.new(params[:reader])
 
         if @reader.save
@@ -40,12 +40,16 @@ class MembershipController < MarketplaceController
           redirect_to '/membership/details/'
         end
       elsif !current_reader.is_secretary
+        # someone not-secretary trying to register but is already logged in
+        # so; do not create a new reader, but show their 'update your details'
         redirect_to update_membership_path
       else
+        # secretary registering a new reader
         @reader = Reader.new(params[:reader])
         @reader.clear_password = params[:reader][:password]
 
         if @reader.valid?
+          # reader gets activated automatically
           @reader.activated_at = DateTime.now
           update_newsletter_preference
           @reader.save!
