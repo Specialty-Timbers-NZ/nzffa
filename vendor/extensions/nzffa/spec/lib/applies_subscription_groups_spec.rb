@@ -1,5 +1,5 @@
 require 'lib/applies_subscription_groups'
-require 'lib/nzffa_settings'
+require 'lib/stnz_settings'
 require 'spec/mocks'
 
 class Group
@@ -26,9 +26,9 @@ describe AppliesSubscriptionGroups do
   let(:reader) { stub(:reader, :groups => []) }
 
   before :each do
-    Group.stub(:find).with(NzffaSettings.fft_marketplace_group_id).and_return(fft_group)
-    Group.stub(:find).with(NzffaSettings.full_membership_group_id).and_return(full_membership_group)
-    Group.stub(:find).with(NzffaSettings.tree_grower_magazine_group_id).and_return(tree_grower_magazine_group)
+    Group.stub(:find).with(StnzSettings.fft_marketplace_group_id).and_return(fft_group)
+    Group.stub(:find).with(StnzSettings.full_membership_group_id).and_return(full_membership_group)
+    Group.stub(:find).with(StnzSettings.tree_grower_magazine_group_id).and_return(tree_grower_magazine_group)
   end
 
   describe 'remove' do

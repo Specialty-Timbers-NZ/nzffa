@@ -11,7 +11,7 @@ class MembershipController < MarketplaceController
 
   def dashboard
     # if they are an FFT member take them to
-    if @reader.group_ids.include? NzffaSettings.fft_marketplace_group_id
+    if @reader.group_ids.include? StnzSettings.fft_marketplace_group_id
       redirect_to FFT_MEMBERS_AREA_PATH
     else
       redirect_to REGISTER_PATH

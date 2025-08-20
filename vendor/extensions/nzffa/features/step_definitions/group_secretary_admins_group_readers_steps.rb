@@ -58,7 +58,7 @@ Given /^I am logged in as the Otago group secretary$/ do
 
   @reader.groups << @group
   @secretary_group = Group.new(:name => 'secretarys')
-  @secretary_group.id = NzffaSettings.secretarys_group_id
+  @secretary_group.id = StnzSettings.secretarys_group_id
   @secretary_group.save!
   @reader.is_secretary = true
   @reader.groups.should include(@secretary_group)

@@ -15,7 +15,7 @@ module Nzffa::MessagesControllerExtension
         elsif params['delivery'] == 'selected_groups_including_non_renewed'
           load_selected_groups
           @readers = @groups.empty? ? [] : Reader.in_groups(@groups).with_membership
-          Group.find(NzffaSettings.non_renewed_members_group_id).readers.each do |reader|
+          Group.find(StnzSettings.non_renewed_members_group_id).readers.each do |reader|
             @readers << reader unless (reader.subscriptions.last.group_ids & @groups.map(&:id)).empty?
           end
           deliver_and_redirect

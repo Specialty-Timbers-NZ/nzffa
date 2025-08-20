@@ -1,5 +1,5 @@
 require 'lib/create_order'
-require 'lib/nzffa_settings'
+require 'lib/stnz_settings'
 require 'lib/calculates_subscription_levy'
 
 class Order
@@ -8,15 +8,15 @@ end
 describe CreateOrder do
 
     before :each do
-      NzffaSettings.remove_defaults
-      NzffaSettings.admin_levy = 34
-      NzffaSettings.forest_size_levys = {'0 - 10'  => 0, 
+      StnzSettings.remove_defaults
+      StnzSettings.admin_levy = 34
+      StnzSettings.forest_size_levys = {'0 - 10'  => 0, 
                                          '11 - 40' => 51, 
                                          '41+'     => 120}
-      NzffaSettings.full_member_tree_grower_magazine_levy = 50
-      NzffaSettings.full_member_fft_marketplace_levy = 55
-      NzffaSettings.casual_member_fft_marketplace_levy = 65
-      NzffaSettings.tree_grower_magazine_within_new_zealand = 40
+      StnzSettings.full_member_tree_grower_magazine_levy = 50
+      StnzSettings.full_member_fft_marketplace_levy = 55
+      StnzSettings.casual_member_fft_marketplace_levy = 65
+      StnzSettings.tree_grower_magazine_within_new_zealand = 40
     end
 
 
@@ -80,13 +80,13 @@ describe CreateOrder do
           it 'refunds for the old subscription' do
             order.should_receive(:add_refund, 
                                  :kind => 'fft_marketplace_levy',
-                                 :amount => NzffaSettings.casual_member_fft_marketplace_levy)
+                                 :amount => StnzSettings.casual_member_fft_marketplace_levy)
           end
           it 'charges for the new subscription' do
             order.should_receive(:add_charge, 
                                  :kind => 'casual_member_nz_tree_grower_magazine_levy',
                                  :particular => 'new_zealand',
-                                 :amount => NzffaSettings.tree_grower_magazine_within_new_zealand)
+                                 :amount => StnzSettings.tree_grower_magazine_within_new_zealand)
 
           end
         end

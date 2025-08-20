@@ -28,14 +28,10 @@ module ReaderMixin
     base.send(:validates_uniqueness_of, :nzffa_membership_id)
 
     group_membership_shortcuts = {
-      :receive_fft_newsletter => NzffaSettings.fft_newsletter_group_id,
+      :receive_fft_newsletter => StnzSettings.fft_newsletter_group_id,
       
-      :is_newsletter_editor => NzffaSettings.newsletter_editors_group_id,
-      :is_councillor => NzffaSettings.councillors_group_id,
-      :is_secretary => NzffaSettings.secretarys_group_id,
-      :is_president => NzffaSettings.presidents_group_id,
-      :is_treasurer => NzffaSettings.treasurers_group_id,
-      :is_resigned => NzffaSettings.resigned_members_group_id }
+      :is_secretary => StnzSettings.secretarys_group_id,
+      :is_resigned => StnzSettings.resigned_members_group_id }
 
     group_membership_shortcuts.each do |method_name, group_id|
       define_method(method_name) do
@@ -115,7 +111,7 @@ module ReaderMixin
     if active_subscription
       ids = []
       if active_subscription.belongs_to_fft
-        ids << NzffaSettings.fft_marketplace_group_id
+        ids << StnzSettings.fft_marketplace_group_id
       end
       ids += Group.action_groups.find_all_by_id(group_ids).map(&:id)
       ids.join(' ')

@@ -1,7 +1,7 @@
 module UpdateReaderNewsletterPreferences
   protected
   def update_newsletter_preference
-    group = Group.find(NzffaSettings.fft_newsletter_group_id)
+    group = Group.find(StnzSettings.fft_newsletter_group_id)
 
     if params["receive_fft_newsletter"]
       unless @reader.groups.include? group

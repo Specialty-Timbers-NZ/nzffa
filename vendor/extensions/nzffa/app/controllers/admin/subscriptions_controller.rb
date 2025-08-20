@@ -143,7 +143,7 @@ class Admin::SubscriptionsController < AdminController
       end
 
       output.write "Rebuilding non-renewed members groups ...\n"
-      group = Group.find(NzffaSettings.non_renewed_members_group_id)
+      group = Group.find(StnzSettings.non_renewed_members_group_id)
       group.readers.clear
       last_year_subscriptions = Subscription.find(:all, :conditions => ['expires_on > ? and expires_on < ?', 1.year.ago.beginning_of_year, 1.year.ago.end_of_year])
       last_year_member_ids = last_year_subscriptions.map(&:reader_id)

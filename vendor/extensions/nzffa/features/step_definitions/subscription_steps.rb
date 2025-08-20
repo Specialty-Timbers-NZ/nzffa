@@ -19,36 +19,36 @@ Given /^I am a registered, logged in reader$/ do
 end
 
 Given /^FFT Marketplace membership is \$(\d+) for casual members$/ do |arg1|
-  NzffaSettings.casual_member_fft_marketplace_levy = arg1.to_i
+  StnzSettings.casual_member_fft_marketplace_levy = arg1.to_i
 end
 
 Given /^FFT Marketplace membership is \$(\d+) for full members$/ do |arg1|
-  NzffaSettings.full_member_fft_marketplace_levy = arg1.to_i
+  StnzSettings.full_member_fft_marketplace_levy = arg1.to_i
 end
 
 Given /^Tree Grower Magazine "([^"]*)" is \$(\d+) \/ year$/ do |arg1, arg2|
   case arg1
   when 'New Zealand'
-    NzffaSettings.tree_grower_magazine_within_new_zealand = arg2.to_i
+    StnzSettings.tree_grower_magazine_within_new_zealand = arg2.to_i
   when 'Australia'
-    NzffaSettings.tree_grower_magazine_within_australia = arg2.to_i
+    StnzSettings.tree_grower_magazine_within_australia = arg2.to_i
   when 'Everywhere else'
-    NzffaSettings.tree_grower_magazine_everywhere_else = arg2.to_i
+    StnzSettings.tree_grower_magazine_everywhere_else = arg2.to_i
   else
     raise 'incorrect area for tree grower subscription destination'
   end
 end
 
 Given /^Tree Grower Magazine is \$(\d+) for full members$/ do |arg1|
-  NzffaSettings.full_member_tree_grower_magazine_levy = arg1.to_i
+  StnzSettings.full_member_tree_grower_magazine_levy = arg1.to_i
 end
 
 Given /^admin levy is \$(\d+)$/ do |amount|
-  NzffaSettings.admin_levy = amount.to_i
+  StnzSettings.admin_levy = amount.to_i
 end
 
 Given /^ha of trees is 0-10 for \$0, 11-40 for \$51, and 41\+ for \$120/ do 
-  NzffaSettings.forest_size_levys = {'0 - 10'  => 0, 
+  StnzSettings.forest_size_levys = {'0 - 10'  => 0, 
                                      '11 - 40' => 51, 
                                      '41+'     => 120}
 end
@@ -59,17 +59,17 @@ end
 
 Given /^there is a Tree Grower Magazine group$/ do
   @tree_grower_magazine_group = Group.create!(:name => 'Tree Grower Magazine')
-  NzffaSettings.tree_grower_magazine_group_id = @tree_grower_magazine_group.id
+  StnzSettings.tree_grower_magazine_group_id = @tree_grower_magazine_group.id
 end
 
 Given /^there is a FFT Marketplace group$/ do
   @fft_marketplace_group = Group.create!(:name => 'Farm Forestry Timbers')
-  NzffaSettings.fft_marketplace_group_id = @fft_marketplace_group.id
+  StnzSettings.fft_marketplace_group_id = @fft_marketplace_group.id
 end
 
 Given /^there is a Full Membership group$/ do
   @full_membership_group = Group.create!(:name => 'Full Membership')
-  NzffaSettings.full_membership_group_id = @full_membership_group.id
+  StnzSettings.full_membership_group_id = @full_membership_group.id
 end
 
 Given /^Eucalyptus Action Group is \$30$/ do
@@ -101,7 +101,7 @@ end
 
 Then /^I should belong to the NZFFA Members Newsletter group$/ do
   @reader.reload
-  @reader.group_ids.should include NzffaSettings.nzffa_members_newsletter_group_id
+  @reader.group_ids.should include StnzSettings.nzffa_members_newsletter_group_id
 end
 
 When /^I visit new subscription$/ do
@@ -155,11 +155,11 @@ end
 
 Given /^there is a FFT group to identify FFT advertisers$/ do 
   fft_group = Group.create(:name => 'Farm Forestry Timbers')
-  NzffaSettings.fft_group_id = fft_group.id
+  StnzSettings.fft_group_id = fft_group.id
 end
 
 Given /^I have configured an FFT subscription$/ do
-  NzffaSettings.casual_member_fft_marketplace_levy = 50
+  StnzSettings.casual_member_fft_marketplace_levy = 50
   visit new_subscription_path
   choose 'Casual Membership'
   click_on 'Next'
@@ -195,7 +195,7 @@ Then /^I should see that payment was successful$/ do
 end
 
 Then /^I should have access to place an ad in the FFT Marketplace$/ do
- Group.find(NzffaSettings.fft_group_id).readers.should include @reader
+ Group.find(StnzSettings.fft_group_id).readers.should include @reader
 end
 
 Given /^I created a casual fft subscription at the start of the year$/ do
@@ -265,15 +265,15 @@ end
 
 Given /^there is a members newsletter group$/ do
   @members_newsletter_group = Group.create!(:name => 'members newsletter group')
-  NzffaSettings.nzffa_members_newsletter_group_id = @members_newsletter_group.id
+  StnzSettings.nzffa_members_newsletter_group_id = @members_newsletter_group.id
 end
 
 Then /^I should belong to the Tree Grower Magazine Australia group$/ do
   @reader.reload
-  @reader.group_ids.should include NzffaSettings.tree_grower_magazine_australia_group_id
+  @reader.group_ids.should include StnzSettings.tree_grower_magazine_australia_group_id
 end
 
 Given /^there is a Tree Grower Magazine Australia group$/ do
   @tree_grower_magazine_australia_group = Group.create(:name => 'Tree grower magazine australia')
-  NzffaSettings.tree_grower_magazine_australia_group_id = @tree_grower_magazine_australia_group.id
+  StnzSettings.tree_grower_magazine_australia_group_id = @tree_grower_magazine_australia_group.id
 end

@@ -1,11 +1,11 @@
 Given /^there is a fft newsletter group$/ do
   g = Group.create!(:name => 'fft newsletter')
-  NzffaSettings.fft_newsletter_group_id = g.id
+  StnzSettings.fft_newsletter_group_id = g.id
 end
 
 Given /^there is a full members newsletter group$/ do
   g = Group.create!(:name => 'nzffa members newsletter')
-  NzffaSettings.nzffa_members_newsletter_group_id = g.id
+  StnzSettings.nzffa_members_newsletter_group_id = g.id
 end
 
 When /^I visit membership register$/ do
@@ -31,16 +31,16 @@ When /^update my personal details$/ do
 end
 
 Given /^I belong to the full membership group$/ do
-  @reader.groups << Group.find(NzffaSettings.full_membership_group_id)
+  @reader.groups << Group.find(StnzSettings.full_membership_group_id)
 end
 
 Then /^I should belong to the Farm Forestry Timbers Newsletter Group$/ do
   @reader = Reader.find_by_email('jim@davidson.com')
-  @reader.group_ids.should include NzffaSettings.fft_newsletter_group_id
+  @reader.group_ids.should include StnzSettings.fft_newsletter_group_id
 end
 
 Then /^I should not belong to NZFFA Members Newsletter group$/ do
-  @reader.group_ids.should_not include NzffaSettings.nzffa_members_newsletter_group_id
+  @reader.group_ids.should_not include StnzSettings.nzffa_members_newsletter_group_id
 end
 
 Then /^I should get a registration email$/ do

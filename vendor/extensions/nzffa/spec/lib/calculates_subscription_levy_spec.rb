@@ -1,13 +1,13 @@
-require 'lib/nzffa_settings'
+require 'lib/stnz_settings'
 require 'lib/calculates_subscription_levy'
 require 'timecop'
 
 describe CalculatesSubscriptionLevy do
   before :each do
-    NzffaSettings.tree_grower_magazine_within_new_zealand = 40
-    NzffaSettings.tree_grower_magazine_within_australia = 50
-    NzffaSettings.tree_grower_magazine_everywhere_else = 60
-    NzffaSettings.admin_levy = 34
+    StnzSettings.tree_grower_magazine_within_new_zealand = 40
+    StnzSettings.tree_grower_magazine_within_australia = 50
+    StnzSettings.tree_grower_magazine_everywhere_else = 60
+    StnzSettings.admin_levy = 34
   end
 
   context 'credit on current subscription' do
@@ -36,7 +36,7 @@ describe CalculatesSubscriptionLevy do
 
   describe 'levy for non year duration' do
     it 'gives 1.5 times levy for 1.5 times duration' do
-      NzffaSettings.casual_member_fft_marketplace_levy = 50
+      StnzSettings.casual_member_fft_marketplace_levy = 50
       subscription = stub(:membership_type => 'casual',
                           :belong_to_fft? => true,
                           :receive_tree_grower_magazine? => false,
@@ -127,7 +127,7 @@ describe CalculatesSubscriptionLevy do
       end
 
       it 'gives levy for fft marketplace membership' do
-        NzffaSettings.casual_member_fft_marketplace_levy = 50
+        StnzSettings.casual_member_fft_marketplace_levy = 50
         subscription.should_receive(:belong_to_fft?).and_return(true)
         CalculatesSubscriptionLevy.yearly_levy_for(subscription).should == 50
       end
@@ -171,11 +171,11 @@ describe CalculatesSubscriptionLevy do
       end
 
       it 'includes admin levy' do
-        NzffaSettings.should_receive(:admin_levy).and_return 10
+        StnzSettings.should_receive(:admin_levy).and_return 10
       end
 
       it 'includes forest area levy' do
-        NzffaSettings.should_receive(:forest_size_levys).and_return({'0 - 10'  => 0, 
+        StnzSettings.should_receive(:forest_size_levys).and_return({'0 - 10'  => 0, 
                                                                      '11 - 40' => 51, 
                                                                      '41+'     => 120})
       end
@@ -183,16 +183,16 @@ describe CalculatesSubscriptionLevy do
       describe 'charging for fft marketplace membership' do
         it 'should happen when belong_to_fft? is true' do
           subscription.should_receive(:belong_to_fft?).and_return(true)
-          NzffaSettings.should_receive(:full_member_fft_marketplace_levy).and_return(10)
+          StnzSettings.should_receive(:full_member_fft_marketplace_levy).and_return(10)
         end
         it 'should not happen when belong_to_fft? is false' do
           subscription.stub(:belong_to_fft?, false)
-          NzffaSettings.should_not_receive(:full_member_fft_marketplace_levy)
+          StnzSettings.should_not_receive(:full_member_fft_marketplace_levy)
         end
       end
 
       it 'includes a tree grower magazine levy' do
-        NzffaSettings.should_receive(:full_member_tree_grower_magazine_levy).and_return(10)
+        StnzSettings.should_receive(:full_member_tree_grower_magazine_levy).and_return(10)
       end
 
       it 'charges for each branch selected' do

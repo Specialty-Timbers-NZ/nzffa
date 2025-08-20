@@ -15,36 +15,8 @@
     %tr
       %td
         %b Farm Forestry Timbers Marketplace
-      %td.price= number_to_currency(NzffaSettings.fft_marketplace_levy)
-  - if @subscription.receive_tree_grower_magazine?
-    %tr
-      %td
-        %b
-          -case @subscription.tree_grower_delivery_location
-          -when 'new_zealand'
-            NZ Tree Grower Magazine
-          -when 'australia'
-            NZ Tree Grower Magazine (delivered within Australia)
-          -when 'everywhere_else'
-            NZ Tree Grower Magazine (International delivery)
-
-        =pluralize(@subscription.nz_tree_grower_copies, 'copy')
-        per issue
-      %td.price
-        =number_to_currency(@order.tree_grower_levy)
-
-  %tr
-    %td
-      %b Geographical Branches:
-      =@subscription.branch_names.join(', ')
-    %td.price
-      = number_to_currency(@order.branches_levy)
-  %tr
-    %td
-      %b Special Interest Groups:
-      =@subscription.action_group_names.join(', ')
-    %td.price
-      = number_to_currency(@order.action_groups_levy)
+      %td.price= number_to_currency(StnzSettings.fft_marketplace_levy)
+      
   - if @subscription.contribute_to_research_fund
     %tr
       %td
