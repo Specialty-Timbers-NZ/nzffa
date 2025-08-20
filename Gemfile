@@ -73,7 +73,6 @@ gem "radiant-page_reader_group_permissions-extension", :git => 'https://github.c
 # gem "radiant-conference-extension", :path => 'vendor/extensions/conference'
 # gem "radiant-conference-extension", git: 'https://github.com/Specialty-Timbers-NZ/radiant-nzffa_conference-extension.git'
 
-# gem "radiant-marketplace-extension", :path => 'vendor/extensions/marketplace'
 # gem "spreadsheet"
 gem "radiant-marketplace-extension", git: 'https://github.com/Specialty-Timbers-NZ/radiant-stnz_marketplace-extension.git'
 # gem "radiant-marketplace-extension", path: "vendor/extensions/marketplace"
