@@ -18,9 +18,9 @@ class CreateOrder
 
     old_order.refundable_order_lines.each do |line|
       next if line.amount == 0
-      order.add_refund(:kind => line.kind,
-                       :particular => line.particular,
-                       :amount => line.refund_amount(fraction_used))
+      order.add_refund(kind: line.kind,
+                       particular: line.particular,
+                       amount: line.refund_amount(fraction_used))
     end
 
     order.remove_cancelling_order_lines!
@@ -36,17 +36,16 @@ class CreateOrder
 
   def create_order
     order = Order.new
-    order.add_charge(:kind => 'admin_levy',
-                     :particular => subscription.main_branch_name,
-                     :amount => admin_levy_amount)
-    order.add_charge(:kind => 'forest_size_levy',
-                     :particular => subscription.ha_of_planted_trees,
-                     :amount => forest_size_levy_amount)
-    
+    order.add_charge(kind: 'admin_levy',
+                     particular: "Admin Levy",
+                     amount: admin_levy_amount)
+    order.add_charge(kind: 'forest_size_levy',
+                     particular: subscription.ha_of_planted_trees,
+                     amount: forest_size_levy_amount)
     if subscription.belongs_to_fft
-      order.add_charge(:kind => 'fft_marketplace_levy',
-                       :particular => 'fft_membership',
-                       :amount => fft_marketplace_levy_amount)
+      order.add_charge(kind: 'fft_marketplace_levy',
+                       particular: 'fft_membership',
+                       amount: fft_marketplace_levy_amount)
     end
     if subscription.contribute_to_research_fund?
       particular = if subscription.research_fund_contribution_is_donation?
@@ -54,10 +53,10 @@ class CreateOrder
                   else
                     'payment'
                   end
-      order.add_charge(:kind => 'research_fund_contribution',
-                       :particular => particular,
-                       :is_refundable => false,
-                       :amount => subscription.research_fund_contribution_amount)
+      order.add_charge(kind: 'research_fund_contribution',
+                       particular: particular,
+                       is_refundable: false,
+                       amount: subscription.research_fund_contribution_amount)
     end
 
     order.subscription = subscription
@@ -68,15 +67,6 @@ class CreateOrder
   def fft_marketplace_levy_amount
     subscription.length_in_years *
       StnzSettings.fft_marketplace_levy.to_i
-  end
-
-  def tree_grower_magazine_levy_amount
-    if reader.is_life_member? or
-       reader.is_branch_life_member?
-      0
-    else
-      nz_tree_grower_levy
-    end
   end
 
   def forest_size_levy_amount
