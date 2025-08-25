@@ -1,6 +1,6 @@
 class MembershipController < MarketplaceController
   include UpdateReaderNewsletterPreferences
-  AFTER_SIGNUP_PATH = '/become-a-nzffa-member/youre-registered'
+  AFTER_SIGNUP_PATH = Page.find(1284).path
   before_filter :require_reader, :only => [:details, :update]
   radiant_layout { |c| Radiant::Config['reader.layout'] }
 
@@ -36,8 +36,8 @@ class MembershipController < MarketplaceController
           update_newsletter_preference
           # MembershipMailer.deliver_registration_email(params[:reader])
           @reader.send_activation_message
-          flash[:notice] = "Thanks for registering with the NZFFA. #{@newsletter_alert} #{@fft_alert}"
-          redirect_to '/membership/details/'
+          flash[:notice] = "Thanks for registering with STNZ. #{@newsletter_alert} #{@fft_alert}"
+          redirect_to AFTER_SIGNUP_PATH
         end
       elsif !current_reader.is_secretary
         # someone not-secretary trying to register but is already logged in
