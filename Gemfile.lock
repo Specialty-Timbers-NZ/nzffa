@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://github.com/Specialty-Timbers-NZ/radiant-stnz_marketplace-extension.git
-  revision: 6e4cfe5118eb2e9d2681a36cf8f5af2deb25b7b8
+  revision: 7ad5586fe64cb6447618f2a3ebe2eaca3d3e3312
   specs:
     radiant-marketplace-extension (1.0.1)
       spreadsheet
@@ -188,7 +188,7 @@ GEM
       activerecord (~> 2.3.0)
       activesupport (~> 2.3.0)
     bcrypt_pbkdf (1.1.0)
-    bigdecimal (3.1.6)
+    bigdecimal (3.2.2)
     builder (3.2.4)
     capistrano (2.14.2)
       highline
