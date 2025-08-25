@@ -6,7 +6,11 @@ class StnzSettings
 
               st_group_id
 
+              newsletter_editors_group_id
+              councillors_group_id
+              presidents_group_id
               secretarys_group_id
+              treasurers_group_id
 
               past_members_group_id
               non_renewed_members_group_id
@@ -34,7 +38,7 @@ class StnzSettings
   end
   @fft_marketplace_levy = Radiant::Config["stnz.full_member_marketplace_levy"].to_i
 
-  roles = %w(secretary past_member non_renewed_member resigned_member)
+  roles = %w(councillor president secretary treasurer newsletter_editor past_member non_renewed_member resigned_member)
   roles.each do |key|
     eval "@#{key}s_group_id = #{Radiant::Config["stnz.#{key}s_group_id"].to_i}"
   end

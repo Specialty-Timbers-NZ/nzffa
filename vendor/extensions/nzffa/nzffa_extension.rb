@@ -35,6 +35,7 @@ class NzffaExtension < Radiant::Extension
     end
     Page.send :include, Nzffa::MessageSubscriptionTags
     Page.send :include, Nzffa::IfDescendantOrSelfTags
+    Page.send :include, Nzffa::GroupRoleTags
     Page.send :include, Nzffa::NewsletterLinkTags
     Page.send :include, Nzffa::ChildWithCorrespondingSlugTag
 
