@@ -3,16 +3,17 @@
 -form_for(@subscription, url: @action_path, html: {class: form_class, method: form_method}) do |f|
   =f.hidden_field :reader_id
 
-  %h3 How many hectares of planted trees do you have?
-  %p#ha_of_planted_trees
-    =f.radio_button :ha_of_planted_trees, '0 - 10'
-    =f.label :ha_of_planted_trees_0__10, '0 - 10ha'
-    %br
-    =f.radio_button :ha_of_planted_trees, '11 - 40'
-    =f.label :ha_of_planted_trees_11__40, '11 - 40ha'
-    %br
-    =f.radio_button :ha_of_planted_trees, '41+'
-    =f.label :ha_of_planted_trees_41, '40+ ha'
+  %h3 What is the size of your business?
+  %div#business_size{style: "display: flex; flex-direction: row"}
+    %div
+      =f.radio_button :business_size, 'small'
+      =f.label :business_size_small, 'small'
+    %div
+      =f.radio_button :business_size, 'medium'
+      =f.label :business_size_medium, 'medium'
+    %div
+      =f.radio_button :business_size, 'large'
+      =f.label :business_size_large, 'large'
 
   %h3 Farm Forestry Timbers Marketplace
   %p Farm Forestry Timbers is a society representing producers of specialty timbers. Joining means you can list your products or services and create adverts.
@@ -20,19 +21,6 @@
     %label
       = f.check_box :belongs_to_fft, {class: 'sgt', checked: f.object.belongs_to_fft}, Group.fft_group.id
       Farm Forestry Timbers
-
-  %h3 Research Fund Contribution
-  %p
-    =f.check_box :contribute_to_research_fund
-    =f.label :contribute_to_research_fund, "Contribute to Research Fund"
-  #research_fund_contribution
-    #research_fund_contribution_amount
-      =f.label :research_fund_contribution_amount, 'Amount to contribute'
-      %input{:name => "subscription[research_fund_contribution_amount]", :id => "subscription_research_fund_contribution_amount", :type => 'number', :min => 0}
-
-      %p If you want your contribution treated as a donation (receipt acknowledgement will be sent) tick the below box
-      =f.check_box :research_fund_contribution_is_donation
-      =f.label :research_fund_contribution_is_donation, 'Treat contribution as donation'
 
   %h3 Consider other products?
   - Product.all.each do |product|

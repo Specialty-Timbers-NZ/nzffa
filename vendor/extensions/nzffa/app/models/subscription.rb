@@ -1,13 +1,12 @@
 class Subscription < ActiveRecord::Base
-  has_one :order, :dependent => :destroy
+  has_one :order, dependent: :destroy
   belongs_to :reader
 
-  has_many :group_subscriptions, :dependent => :destroy, :source => :group
-  has_many :groups, :through => :group_subscriptions
+  has_many :group_subscriptions, dependent: :destroy, source: :group
+  has_many :groups, through: :group_subscriptions
 
   validates_presence_of :expires_on, :begins_on
   validates_presence_of :reader
-  validates_numericality_of :research_fund_contribution_amount, :greater_than_or_equal_to => 0
 
   named_scope :active, lambda {
     {joins: :order,
@@ -15,15 +14,16 @@ class Subscription < ActiveRecord::Base
      readonly: false}}
 
   named_scope :active_for_reader, lambda { |reader|
-    {:joins => :order,
-     :conditions => ['begins_on <= ? AND expires_on >= ? AND
-                      cancelled_on IS NULL AND orders.paid_on > "2001-01-01"
-                      AND reader_id = ?',  Date.today, Date.today, reader.id ]}}
+    {joins: :order,
+     conditions: ['begins_on <= ? AND expires_on >= ? AND
+                    cancelled_on IS NULL AND orders.paid_on > "2001-01-01"
+                    AND reader_id = ?',  Date.today, Date.today, reader.id ]}}
 
-  named_scope :active_anytime, {:joins => :order, :conditions => ['cancelled_on IS NULL AND orders.paid_on > "2001-01-01"' ]}
-  # named_scope :full_membership, {:conditions => "membership_type = 'full'"}
-  # named_scope :casual_membership, {:conditions => "membership_type = 'casual'"}
-
+  named_scope :active_anytime, {
+    joins: :order, 
+    conditions: ['cancelled_on IS NULL AND orders.paid_on > "2001-01-01"' ]
+  }
+  
   named_scope :expiring_before, lambda{|expiry_date|
     {joins: :order,
      conditions: ['begins_on <= ? AND
@@ -36,26 +36,28 @@ class Subscription < ActiveRecord::Base
   named_scope :expiring_on, lambda {|expiry_date|
     {conditions: {expires_on: expiry_date, cancelled_on: nil}}}
 
-  named_scope :with_readers_having_no_real_email_or_disallowing_renewal_mails, {joins: :reader,
-    conditions: ["(readers.email LIKE ?) OR (readers.disallow_renewal_mails = ?)", '%@nzffa.org.nz', true]}
+  named_scope :with_readers_having_no_real_email_or_disallowing_renewal_mails, {
+    joins: :reader,
+    conditions: ["(readers.email LIKE ?) OR (readers.disallow_renewal_mails = ?)", '%@nzffa.org.nz', true]
+  }
 
   def self.last_subscription_for(reader)
-    find_by_reader_id(reader.id, :order => 'id desc')
+    find_by_reader_id(reader.id, order: 'id desc')
   end
 
   def self.last_paid_subscription_for(reader)
     find_by_reader_id(reader.id,
-      :joins => :order,
-      :conditions => ['cancelled_on IS NULL AND orders.paid_on > "2001-01-01"'],
-      :order => 'id desc')
+      joins: :order,
+      conditions: ['cancelled_on IS NULL AND orders.paid_on > "2001-01-01"'],
+      order: 'id desc')
   end
 
   def self.current_subscription_for(reader)
-    find_by_reader_id(reader.id, :conditions => ['begins_on <= :today
-                                and expires_on > :today
-                                and cancelled_on is null',
-                                {:today => Date.today}],
-                               :order => 'id desc')
+    find_by_reader_id(
+      reader.id,
+      conditions: ['begins_on <= :today and expires_on > :today and cancelled_on is null', {today: Date.today}],
+      order: 'id desc'
+    )
   end
 
   def self.last_year_subscription_for(reader)
@@ -93,14 +95,9 @@ class Subscription < ActiveRecord::Base
   def self.new_with_same_attributes(old_sub)
     new do |sub|
       [:reader,
-       :membership_type,
        :main_branch,
        :begins_on,
        :expires_on,
-       :contribute_to_research_fund,
-       :research_fund_contribution_amount,
-       :research_fund_contribution_is_donation,
-       :special_interest_groups,
        :belongs_to_fft].each do |attr|
          sub.send "#{attr}=", old_sub.send(attr)
        end
@@ -136,10 +133,6 @@ class Subscription < ActiveRecord::Base
     list = []
     list << membership_type
 
-    # if membership_type == 'full'
-#       list << "Branches: [#{(branches.map{|b| b.name }).join(', ')}]"
-#     end
-
     list << "Begins: #{begins_on}"
     list << "Expires: #{expires_on}"
     list.join(', ')
@@ -164,15 +157,6 @@ class Subscription < ActiveRecord::Base
   def after_initialize
     self.begins_on ||= Date.today
     self.expires_on ||= Date.new(begins_on.year, 12, 31)
-    self.research_fund_contribution_amount ||= 0.0
-  end
-
-  def research_fund_contribution_amount
-    if contribute_to_research_fund?
-      self[:research_fund_contribution_amount]
-    else
-      0
-    end
   end
 
   def belongs_to_fft

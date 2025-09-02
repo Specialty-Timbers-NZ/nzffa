@@ -1,6 +1,6 @@
 class StnzSettings
   NAMES = %w[ admin_levy
-              forest_size_levys
+              business_size_levys
               fft_marketplace_levy
               fft_marketplace_group_id
 
@@ -32,9 +32,9 @@ class StnzSettings
   end
 
   @admin_levy = Radiant::Config["stnz.admin_levy"].to_i
-  @forest_size_levys = {}
-  ['0 - 10', '11 - 40', '41+'].each do |key|
-    @forest_size_levys[key] = Radiant::Config["stnz.forest_size_#{key.gsub(' ','')}_levy"].to_i
+  @business_size_levys = {}
+  ['small', 'medium', 'large'].each do |key|
+    @business_size_levys[key] = Radiant::Config["stnz.business_size_#{key.gsub(' ','')}_levy"].to_i
   end
   @fft_marketplace_levy = Radiant::Config["stnz.full_member_marketplace_levy"].to_i
 

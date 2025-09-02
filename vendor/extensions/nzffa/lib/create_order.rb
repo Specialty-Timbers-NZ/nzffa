@@ -39,24 +39,13 @@ class CreateOrder
     order.add_charge(kind: 'admin_levy',
                      particular: "Admin Levy",
                      amount: admin_levy_amount)
-    order.add_charge(kind: 'forest_size_levy',
-                     particular: subscription.ha_of_planted_trees,
-                     amount: forest_size_levy_amount)
+    order.add_charge(kind: 'business_size_levy',
+                     particular: subscription.business_size,
+                     amount: business_size_levy_amount)
     if subscription.belongs_to_fft
       order.add_charge(kind: 'fft_marketplace_levy',
                        particular: 'fft_membership',
                        amount: fft_marketplace_levy_amount)
-    end
-    if subscription.contribute_to_research_fund?
-      particular = if subscription.research_fund_contribution_is_donation?
-                    'donation'
-                  else
-                    'payment'
-                  end
-      order.add_charge(kind: 'research_fund_contribution',
-                       particular: particular,
-                       is_refundable: false,
-                       amount: subscription.research_fund_contribution_amount)
     end
 
     order.subscription = subscription
@@ -69,13 +58,9 @@ class CreateOrder
       StnzSettings.fft_marketplace_levy.to_i
   end
 
-  def forest_size_levy_amount
-    if reader.is_branch_life_member? or reader.is_life_member?
-      0
-    else
-      subscription.length_in_years *
-        StnzSettings.forest_size_levys[subscription.ha_of_planted_trees].to_i
-    end
+  def business_size_levy_amount
+    subscription.length_in_years *
+      StnzSettings.business_size_levys[subscription.business_size].to_i
   end
 
   def admin_levy_amount

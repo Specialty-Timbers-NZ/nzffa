@@ -218,20 +218,20 @@ class Order < ActiveRecord::Base
             unit_amount: line.amount
           )
         end
-      when "forest_size_levy"
+      when "business_size_levy"
         if advance_payment?
           account_code = "2-3350" # Advance forest size levies all go on one account
         else
-          if line.particular == '0 - 10'
+          if line.particular == 'small'
             account_code = "4-1400"
-          elsif line.particular == '11 - 40'
+          elsif line.particular == 'medium'
             account_code = "4-1402"
-          elsif line.particular == '41+'
+          elsif line.particular == 'large'
             account_code = "4-1403"
           end
         end
         invoice.add_line_item(
-          description: "Area levy #{line.particular}",
+          description: "Business size levy #{line.particular}",
           account_code: account_code,
           unit_amount: line.amount
         )

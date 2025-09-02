@@ -2,32 +2,10 @@
   %p
     %b Listing in Farm Forestry Timbers Marketplace?
     =subscription.belongs_to_fft ? 'Yes' : 'No'
-
   %p
-    %b Receive NZ Tree Grower Magazine?
-    =subscription.receive_tree_grower_magazine? ? 'Yes' : 'No'
-    -if subscription.receive_tree_grower_magazine?
-      #{subscription.nz_tree_grower_copies} copies
-
-  %p
-    %b Forest Area:
-    =subscription.ha_of_planted_trees
-  %p
-    %b Branches:
-    %ul
-      -subscription.branches.each do |branch|
-        %li=branch.name
-  %p
-    %b Special Interest Groups:
-    %ul
-      -subscription.action_groups.each do |action_group|
-        %li=action_group.name
-
-  - unless subscription.main_branch_id.blank?
-    %p
-      %b Main branch:
-      = subscription.main_branch_name
-
+    %b Business size:
+    =subscription.business_size
+  
   - unless subscription.paid?
     %p the subscription has not been paid. Either #{link_to('cancel', cancel_admin_reader_subscription_path(@reader, subscription), method: :post, confirm: "Really cancel this?")} or #{link_to('mark as paid', edit_admin_order_path(subscription.order))}.
 
