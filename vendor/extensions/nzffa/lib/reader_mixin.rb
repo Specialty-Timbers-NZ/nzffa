@@ -6,9 +6,17 @@ module ReaderMixin
 
       if active
         now = lambda{Date.today}
-        find(:all, :include => [:subscriptions => :order], :conditions => ["subscriptions.begins_on <= ? AND subscriptions.expires_on >= ? AND subscriptions.cancelled_on IS NULL AND orders.paid_on > '2001-01-01'", now.call, now.call])
+        find(
+          :all, 
+          include: [subscriptions: :order], 
+          conditions: [
+            "subscriptions.begins_on <= ? AND subscriptions.expires_on >= ? AND subscriptions.cancelled_on IS NULL AND orders.paid_on > '2001-01-01'", 
+            now.call, 
+            now.call
+          ]
+        )
       else
-        find(:all, :include => :subscriptions)
+        find(:all, include: :subscriptions)
       end
     end
   end
@@ -28,10 +36,15 @@ module ReaderMixin
     base.send(:validates_uniqueness_of, :nzffa_membership_id)
 
     group_membership_shortcuts = {
-      :receive_fft_newsletter => StnzSettings.fft_newsletter_group_id,
+      receive_fft_newsletter: StnzSettings.fft_newsletter_group_id,
       
-      :is_secretary => StnzSettings.secretarys_group_id,
-      :is_resigned => StnzSettings.resigned_members_group_id }
+      is_newsletter_editor: StnzSettings.newsletter_editors_group_id,
+      is_councillor: StnzSettings.councillors_group_id,
+      is_secretary: StnzSettings.secretarys_group_id,
+      is_president: StnzSettings.presidents_group_id,
+      is_treasurer: StnzSettings.treasurers_group_id,
+      is_resigned: StnzSettings.resigned_members_group_id
+    }
 
     group_membership_shortcuts.each do |method_name, group_id|
       define_method(method_name) do
@@ -105,23 +118,6 @@ module ReaderMixin
 
   def has_subscription_for_next_year?
     !subscription_for_next_year.nil?
-  end
-
-  def action_group_group_ids_string
-    if active_subscription
-      ids = []
-      if active_subscription.belongs_to_fft
-        ids << StnzSettings.fft_marketplace_group_id
-      end
-      ids += Group.action_groups.find_all_by_id(group_ids).map(&:id)
-      ids.join(' ')
-    end
-  end
-
-  def action_group_names
-    if sub = Subscription.active_subscription_for(self)
-      sub.groups.action_groups.map(&:name)
-    end
   end
 
   def assign_nzffa_membership_id
