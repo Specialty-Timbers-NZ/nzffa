@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://github.com/Specialty-Timbers-NZ/radiant-stnz_marketplace-extension.git
-  revision: fe9d86f454bd6d38b0a01f3ed29c8eb1110e8c46
+  revision: fb424e137be6cb6042039ef22aa8b421ac03fafa
   specs:
     radiant-marketplace-extension (1.0.1)
       spreadsheet
