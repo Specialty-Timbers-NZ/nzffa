@@ -3,10 +3,10 @@ class ExpiryMailer < ActionMailer::Base
     #recipients advert.reader.email
     @advert = advert
     recipients advert.reader.email
-    from "NZFFA Marketplace <noreply@nzffa.org.nz>"
+    from "NZST Marketplace <admin@specialtytimbers.nz>"
     subject 'Your listing will expire in 7 days'
     content_type  "text/html"
-    reply_to 'noreply@nzffa.org.nz'
+    reply_to 'admin@specialtytimbers.nz'
     sent_on Time.now
     body
   end
